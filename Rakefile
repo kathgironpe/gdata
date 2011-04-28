@@ -37,7 +37,7 @@ end
 spec = Gem::Specification.new do |s|
   s.platform = Gem::Platform::RUBY
   s.author = 'Jeff Fisher, Trevor Johns'
-  s.email = 'trevorjohns@google.com'
+  s.email = 'bridgeutopia@gmail.com'
   s.homepage = 'http://code.google.com/p/gdata-ruby-util'
   s.summary = "Google Data APIs Ruby Utility Library"
   s.rubyforge_project = 'gdata'
