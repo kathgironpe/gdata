@@ -14,10 +14,10 @@
 
 module GData
   module Client
-    
+
     # Client class to wrap working with the Book Search Data API.
     class BookSearch < Base
-      
+
       def initialize(options = {})
         options[:clientlogin_service] ||= 'print'
         options[:authsub_scope] ||= 'https://www.google.com/books/feeds/'

@@ -18,12 +18,12 @@ require 'uri'
 
 module GData
   module HTTP
-  
+
     # This is the default implementation of the HTTP layer that uses
     # Net::HTTP. You could roll your own if you have different requirements
     # or cannot use Net::HTTP for some reason.
     class DefaultService
-    
+
       # Take a GData::HTTP::Request, execute the request, and return a
       # GData::HTTP::Response object.
       def make_request(request)
@@ -31,7 +31,7 @@ module GData
         http = Net::HTTP.new(url.host, url.port)
         http.use_ssl = (url.scheme == 'https')
         http.verify_mode = OpenSSL::SSL::VERIFY_NONE
-        
+
         case request.method
         when :get
           req = Net::HTTP::Get.new(url.request_uri)
@@ -44,7 +44,7 @@ module GData
         else
           raise ArgumentError, "Unsupported HTTP method specified."
         end
-        
+
         case request.body
         when String
           req.body = request.body
@@ -59,15 +59,15 @@ module GData
         else
           req.body = request.body.to_s
         end
-        
+
         request.headers.each do |key, value|
           req[key] = value
         end
-        
+
         request.calculate_length!
-        
+
         res = http.request(req)
-        
+
         response = Response.new
         response.body = res.body
         response.headers = Hash.new

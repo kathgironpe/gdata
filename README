@@ -6,6 +6,10 @@
 
 Ruby wrapper for working with Google Data APIs
 
+== UNMAINTAINED:
+
+Please check on https://github.com/tokumine/GData
+
 == SYNOPSIS:
 
   yt = GData::Client::YouTube.new

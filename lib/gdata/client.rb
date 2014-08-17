@@ -28,7 +28,7 @@ require 'gdata/client/photos'
 require 'gdata/client/spreadsheets'
 require 'gdata/client/webmaster_tools'
 require 'gdata/client/youtube'
-  
+
 module GData
   module Client
 
@@ -54,31 +54,31 @@ module GData
 
     class AuthorizationError < RequestError
     end
-    
+
     class BadRequestError < RequestError
     end
-    
+
     # An error caused by ClientLogin issuing a CAPTCHA error.
     class CaptchaError < RuntimeError
       # The token identifying the CAPTCHA
       attr_reader :token
       # The URL to the CAPTCHA image
       attr_reader :url
-      
+
       def initialize(token, url)
         @token = token
         @url = url
       end
     end
-    
+
     class ServerError < RequestError
     end
-    
+
     class UnknownError < RequestError
     end
-    
+
     class VersionConflictError < RequestError
-    end  
-    
+    end
+
   end
 end

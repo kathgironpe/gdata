@@ -14,10 +14,10 @@
 
 module GData
   module Client
-    
+
     # Client class to wrap working with the Picasa Web Albums API.
     class Photos < Base
-      
+
       def initialize(options = {})
         options[:clientlogin_service] ||= 'lh2'
         options[:authsub_scope] ||= 'https://picasaweb.google.com/data/'

@@ -14,10 +14,10 @@
 
 module GData
   module Client
-    
+
     # Client class to wrap working with the Apps Provisioning API.
     class Apps < Base
-      
+
       def initialize(options = {})
         options[:clientlogin_service] ||= 'apps'
         super(options)

@@ -14,10 +14,10 @@
 
 module GData
   module Client
-    
+
     # A client object used to interact with different Google Data APIs.
     class Base
-    
+
       # A subclass of GData::Auth that handles authentication signing.
       attr_accessor :auth_handler
       # A subclass of GData::HTTP that handles making HTTP requests.
@@ -35,18 +35,18 @@ module GData
       attr_accessor :authsub_scope
       # A short string identifying the current application.
       attr_accessor :source
-      
+
       def initialize(options = {})
         options.each do |key, value|
           self.send("#{key}=", value)
         end
-        
+
         @headers ||= {}
         @http_service ||= GData::HTTP::DefaultService
         @version ||= '2'
         @source ||= 'AnonymousApp'
       end
-      
+
       # Sends an HTTP request with the given file as a stream
       def make_file_request(method, url, file_path, mime_type, entry = nil)
         if not File.readable?(file_path)
@@ -66,21 +66,21 @@ module GData
         file.close
         return response
       end
-      
+
       # Sends an HTTP request and return the response.
       def make_request(method, url, body = '')
         headers = self.prepare_headers
-        request = GData::HTTP::Request.new(url, :headers => headers, 
+        request = GData::HTTP::Request.new(url, :headers => headers,
           :method => method, :body => body)
-        
+
         if @auth_handler and @auth_handler.respond_to?(:sign_request!)
           @auth_handler.sign_request!(request)
         end
 
         service = http_service.new
         response = service.make_request(request)
-        
-        case response.status_code  
+
+        case response.status_code
         when 200, 201, 302
           #Do nothing, it's a success.
         when 401, 403
@@ -94,40 +94,40 @@ module GData
         else
           raise UnknownError.new(response)
         end
-        
+
         return response
       end
-      
+
       # Performs an HTTP GET against the API.
       def get(url)
         return self.make_request(:get, url)
       end
-      
+
       # Performs an HTTP PUT against the API.
       def put(url, body)
         return self.make_request(:put, url, body)
       end
-      
+
       # Performs an HTTP PUT with the given file
       def put_file(url, file_path, mime_type, entry = nil)
         return self.make_file_request(:put, url, file_path, mime_type, entry)
       end
-      
+
       # Performs an HTTP POST against the API.
       def post(url, body)
         return self.make_request(:post, url, body)
       end
-      
+
       # Performs an HTTP POST with the given file
       def post_file(url, file_path, mime_type, entry = nil)
         return self.make_file_request(:post, url, file_path, mime_type, entry)
       end
-      
+
       # Performs an HTTP DELETE against the API.
       def delete(url)
         return self.make_request(:delete, url)
       end
-      
+
       # Constructs some necessary headers for every request.
       def prepare_headers
         headers = @headers
@@ -139,10 +139,10 @@ module GData
         end
         return headers
       end
-      
+
       # Performs ClientLogin for the service. See GData::Auth::ClientLogin
       # for details.
-      def clientlogin(username, password, captcha_token = nil, 
+      def clientlogin(username, password, captcha_token = nil,
         captcha_answer = nil, service = nil, account_type = nil)
         if service.nil?
           service = @clientlogin_service
@@ -155,7 +155,7 @@ module GData
         source = GData::Auth::SOURCE_LIB_STRING + @source
         @auth_handler.get_token(username, password, source, captcha_token, captcha_answer)
       end
-      
+
       def authsub_url(next_url, secure = false, session = true, domain = nil,
         scope = nil)
         if scope.nil?
@@ -163,12 +163,12 @@ module GData
         end
         GData::Auth::AuthSub.get_url(next_url, scope, secure, session, domain)
       end
-      
+
       # Sets an AuthSub token for the service.
       def authsub_token=(token)
         self.auth_handler = GData::Auth::AuthSub.new(token)
       end
-      
+
       # Sets a private key to use with AuthSub requests.
       def authsub_private_key=(key)
         if @auth_handler.class == GData::Auth::AuthSub
